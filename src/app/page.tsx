@@ -133,4 +133,6 @@ const Home: React.FunctionComponent = () => {
   );
 }
 
-export default <PrivateRoute Component={Home} unknownBlocked={true}></PrivateRoute>;
+export default function HomePage() {
+    return <PrivateRoute Component={Home} unknownBlocked={true}></PrivateRoute>;
+}

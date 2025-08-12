@@ -156,4 +156,6 @@ const pastDevelopers = [
     }
 ]
 
-export default <PrivateRoute Component={About} unknownBlocked={true}/>;
+export default function AboutPage() {
+    return <PrivateRoute Component={About} unknownBlocked={true}></PrivateRoute>;
+}

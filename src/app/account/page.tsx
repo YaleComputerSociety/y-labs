@@ -325,4 +325,6 @@ const Account: React.FunctionComponent = () => {
     );
 }
 
-export default <PrivateRoute Component={Account} unknownBlocked={true}/>;
+export default function AccountPage() {
+    return <PrivateRoute Component={Account} unknownBlocked={true}/>;
+}

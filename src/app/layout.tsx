@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import UserContextProvider from "@/context/UserContextProvider";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
+
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-inter', // optional CSS variable
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "y/labs",
@@ -13,10 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <body>
         <UserContextProvider>
-          {children}
+          <Navbar />
+          <main>{children}</main>
         </UserContextProvider>
       </body>
     </html>
