@@ -1,0 +1,145 @@
+'use client';
+
+import PrivateRoute from "@/components/PrivateRoute";
+import SignInButton from "@/components/login/SignInButton";
+import UserContext from "@/context/UserContext";
+
+import PulseLoader from "react-spinners/PulseLoader";
+import styled from "styled-components";
+import { useContext, useEffect } from "react";
+import { useRouter } from 'next/navigation';
+
+const Login: React.FunctionComponent = () => {
+  const { isLoading, isAuthenticated, user } = useContext(UserContext);
+  const router = useRouter();
+
+  // Determine redirect path based on user type
+  const getRedirectPath = () => {
+    // Professors go to account page
+    if (user?.userType === 'professor') {
+      return '/account';
+    }
+    // All other users go to home page
+    return '/';
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push(getRedirectPath());
+    }
+  }, [isAuthenticated]);
+
+  return (
+    <Container>
+      <Description>
+        <div className='flex items-center'>
+          <img 
+            src="/assets/logos/paperclip.png" 
+            alt="ylabs-logo" 
+            className="mr-2 w-[3.5rem] h-[3rem] md:w-[6.33rem] md:h-[5.4rem] sm:w-[4.5rem] sm:h-[4rem] " 
+          />
+          <img 
+            src="/assets/logos/ylabs-blue.png" 
+            alt="ylabs-logo" 
+            className="w-[7rem] h-[3rem] md:w-[13.03rem] md:h-[5.4rem] sm:w-[9rem] sm:h-[4rem]" 
+          />
+        </div>
+        <TitleText className="mt-12">A Yale Research Database</TitleText>
+        <Text className="mt-2">
+          Search through 1400+ Yale faculty listings across 60+ fields of study. Learn about professors who share your research interests and find potential research mentors.
+        </Text>
+      </Description>
+      <AuthContainer>
+        {isLoading ? (
+          <PulseLoader color="#66CCFF" size={10} />
+        ) : isAuthenticated ? (
+          <></>
+        ) : (
+          <SignInButton />
+        )}
+      </AuthContainer>
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5% 20px;
+  box-sizing: border-box;
+`;
+
+const Description = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin-top: 120px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: top;
+  text-align: center;
+  
+  @media (max-width: 768px) {
+    padding: 0 15px;
+  }
+`;
+
+const Logo = styled.img`
+  width: 320px;
+  height: auto;
+  max-width: 90%;
+  
+  @media (max-width: 768px) {
+    width: 250px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 200px;
+  }
+`;
+
+const TitleText = styled.h1`
+  color: #000000;
+  font-size: 32px;
+  
+  @media (max-width: 768px) {
+    font-size: 28px;
+    margin-top: 20px !important;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 24px;
+  }
+`;
+
+const Text = styled.p`
+  color: #000000;
+  font-size: 20px;
+  
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
+`;
+
+const AuthContainer = styled.div`
+  margin-top: 30px;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  
+  @media (max-width: 768px) {
+    margin-top: 20px;
+  }
+`;
+
+export default <PrivateRoute Component={Login}/>;
