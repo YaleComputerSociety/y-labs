@@ -1,6 +1,5 @@
 'use client';
 
-import PrivateRoute from "@/components/PrivateRoute";
 import SignInButton from "@/components/login/SignInButton";
 import UserContext from "@/context/UserContext";
 
@@ -142,4 +141,4 @@ const AuthContainer = styled.div`
   }
 `;
 
-export default <PrivateRoute Component={Login}/>;
+export default Login;
