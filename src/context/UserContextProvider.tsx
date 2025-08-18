@@ -19,9 +19,9 @@ const UserContextProvider: React.FunctionComponent<UserContextProviderProps> = (
   const checkContext = useCallback(() => {
     setIsLoading(true);
     axios
-      .get<{ auth: boolean; user?: User }>("/check", {withCredentials: true})
+      .get<{ isLoggedIn: boolean; user?: User }>("/api/auth/verify", {withCredentials: true})
       .then(({ data }) => {
-        if (data.auth) {
+        if (data.isLoggedIn) {
           setIsAuthenticated(true);
           setUser(data.user);
         } else {

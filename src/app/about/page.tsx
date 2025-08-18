@@ -157,5 +157,5 @@ const pastDevelopers = [
 ]
 
 export default function AboutPage() {
-    return <PrivateRoute Component={About} unknownBlocked={true}></PrivateRoute>;
+    return <PrivateRoute unknownBlocked={true}>{<About />}</PrivateRoute>;
 }

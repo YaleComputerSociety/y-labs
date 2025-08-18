@@ -326,5 +326,5 @@ const Account: React.FunctionComponent = () => {
 }
 
 export default function AccountPage() {
-    return <PrivateRoute Component={Account} unknownBlocked={true}/>;
+    return <PrivateRoute unknownBlocked={true}>{<Account />}</PrivateRoute>;
 }

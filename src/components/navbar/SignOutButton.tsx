@@ -19,14 +19,8 @@ const SignOutButton = () => {
     }
     
     // Perform logout
-    axios.get<{ success: boolean }>("/logout").then(({ data }) => {
-      if (data.success) {
-        checkContext();
-      } else {
-        console.log('LOGOUT: Logout failed');
-      }
-    }).catch(error => {
-      console.error('LOGOUT: Error during logout:', error);
+    axios.get("/api/auth/logout").then(() => {
+      checkContext();
     });
   };
 

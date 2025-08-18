@@ -3,10 +3,10 @@ import UserContext from '@/context/UserContext';
 import { useRouter } from 'next/navigation';
 
 interface UnprivateRouteProps {
-  Component: React.FunctionComponent;
+  children: React.ReactNode;
 }
 
-const UnprivateRoute = ({ Component } : UnprivateRouteProps) => {
+const UnprivateRoute = ({ children } : UnprivateRouteProps) => {
  
   const { user } = useContext(UserContext);
   const router = useRouter();
@@ -15,7 +15,7 @@ const UnprivateRoute = ({ Component } : UnprivateRouteProps) => {
     router.push('/');
   }
 
-  return user ? <></> : <Component />;
+  return user ? <></> : <>{children}</>;
 };
 
 export default UnprivateRoute;

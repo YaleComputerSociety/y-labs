@@ -31,5 +31,5 @@ const LoginError: React.FunctionComponent = () => {
 }
 
 export default function LoginErrorPage() {
-    return <UnprivateRoute Component={LoginError} />;
+    return <UnprivateRoute>{<LoginError />}</UnprivateRoute>;
 }

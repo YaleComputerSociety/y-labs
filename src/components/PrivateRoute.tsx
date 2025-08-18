@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import UserContext from '@/context/UserContext';
 
 interface PrivateRouteProps {
-  Component: React.FunctionComponent;
+  children: React.ReactNode;
   unknownBlocked?: boolean;
   knownBlocked?: boolean;
 }
 
-const PrivateRoute = ({ Component, unknownBlocked, knownBlocked } : PrivateRouteProps) => {
+const PrivateRoute = ({ children, unknownBlocked, knownBlocked } : PrivateRouteProps) => {
   const { user, isLoading, isAuthenticated } = useContext(UserContext);
   const router = useRouter();
   const [allowRender, setAllowRender] = useState(false);
@@ -47,7 +47,7 @@ const PrivateRoute = ({ Component, unknownBlocked, knownBlocked } : PrivateRoute
   }
 
   // If all checks pass, render the component
-  return <Component />;
+  return <>{children}</>;
 };
 
 export default PrivateRoute;
