@@ -4,10 +4,13 @@ import { useContext } from "react";
 import axios from "@/utils/axios";
 import UserContext from "@/context/UserContext";
 
+import { useRouter } from "next/navigation";
+
 const SignOutButton = () => {
   const { checkContext } = useContext(UserContext);
+  const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // Save the current path to localStorage
     const currentPath = window.location.pathname;
     
@@ -17,10 +20,10 @@ const SignOutButton = () => {
       const returnUrl = window.location.origin + currentPath;
       localStorage.setItem('logoutReturnPath', returnUrl);
     }
-    
-    // Perform logout
-    axios.get("/api/auth/logout").then(() => {
+
+    axios.get('/auth/logout').then(() => {
       checkContext();
+      router.push('/login')
     });
   };
 

@@ -47,4 +47,4 @@ const userBackupSchema = new mongoose.Schema(
   }
 );
 
-export const UserBackup = mongoose.model('user_backups', userBackupSchema);
+export const UserBackup = mongoose.models.user_backups || mongoose.model('user_backups', userBackupSchema);

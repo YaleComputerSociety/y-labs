@@ -36,4 +36,4 @@ const listingBackupSchema = new mongoose.Schema(
   }
 );
 
-export const ListingBackup = mongoose.model('listing_backups', listingBackupSchema);
+export const ListingBackup = mongoose.models.listing_backups || mongoose.model('listing_backups', listingBackupSchema);

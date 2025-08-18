@@ -42,7 +42,7 @@ const PrivateRoute = ({ children, unknownBlocked, knownBlocked } : PrivateRouteP
     setAllowRender(true);
   }, [isLoading, isAuthenticated, user, unknownBlocked, knownBlocked, router]);
 
-  if (isLoading || !allowRender) {
+  if (isLoading || !isAuthenticated || !allowRender) {
     return null;
   }
 

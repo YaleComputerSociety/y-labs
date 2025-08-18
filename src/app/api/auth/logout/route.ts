@@ -5,7 +5,8 @@ export async function GET(): Promise<NextResponse> {
   if (!BASE_URL) {
     throw new Error("Please define the BASE_URL environment variable");
   }
-  const response = NextResponse.redirect(`${process.env.BASE_URL}/`);
+  //const response = NextResponse.redirect(new URL('/login', process.env.BASE_URL));
+  const response = NextResponse.json({ message: 'Logged out' });
 
   response.cookies.delete({
     name: 'token',

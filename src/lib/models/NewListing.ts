@@ -82,4 +82,4 @@ const newListingSchema = new mongoose.Schema(
   }
 );
 
-export const NewListing = mongoose.model('newListings', newListingSchema);
+export const NewListing = mongoose.models.newListings || mongoose.model('newListings', newListingSchema);

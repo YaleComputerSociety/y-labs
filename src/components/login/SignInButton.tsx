@@ -29,7 +29,7 @@ const SignInButton = () => {
     }
   }, []);
   
-  const finalUrl = backendBaseURL + `/api/auth/login`;
+  const finalUrl = backendBaseURL + `/auth/login`;
   
   return (
     <Button
