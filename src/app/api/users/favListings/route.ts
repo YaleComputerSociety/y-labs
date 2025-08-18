@@ -1,9 +1,12 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { isAuthenticated } from '@/lib/auth';
 import { addFavListings, deleteFavListings } from '@/lib/services/userService';
+import connectToDatabase from '@/lib/utils/mongodb';
 
 export async function PUT(req: NextRequest) {
   try {
+    await connectToDatabase();
+
     const body = await req.json();
     const { authResult, user } = await isAuthenticated(req);
     if (!authResult) {
@@ -30,16 +33,18 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    await connectToDatabase();
+
     const body = await req.json();
     const { authResult, user } = await isAuthenticated(req);
     if (!authResult) {
       return NextResponse.json({ error: 'Unauthorized'}, { status: 401 });
     }
-    if (!body.data.favListings) {
+    if (!body.favListings) {
         throw new Error('No favListings provided');
     }
 
-    const newUser = await deleteFavListings(user.netId, Array.isArray(body.data.favListings) ? body.data.favListings : [body.data.favListings]);
+    const newUser = await deleteFavListings(user.netId, Array.isArray(body.favListings) ? body.favListings : [body.favListings]);
     return NextResponse.json({ newUser });
   } catch (error) {
     let message = 'Unknown error occurred when adding a favorite listing';

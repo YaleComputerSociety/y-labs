@@ -2,9 +2,12 @@ import { NextResponse, NextRequest } from 'next/server';
 import { isAuthenticated } from '@/lib/auth';
 import { readUser } from '@/lib/services/userService';
 import { createListing } from '@/lib/services/newListingsService';
+import connectToDatabase from '@/lib/utils/mongodb';
 
 export async function POST(req: NextRequest) {
   try {
+    await connectToDatabase();
+
     const body = await req.json();
     const { authResult, user } = await isAuthenticated(req);
     if (!authResult) {

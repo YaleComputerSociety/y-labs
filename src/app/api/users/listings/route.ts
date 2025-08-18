@@ -3,9 +3,12 @@ import { isAuthenticated } from '@/lib/auth';
 import { readUser, updateUser } from '@/lib/services/userService';
 import { readListings } from '@/lib/services/newListingsService';
 import mongoose from 'mongoose';
+import connectToDatabase from '@/lib/utils/mongodb';
 
 export async function GET(req: NextRequest) {
   try {
+    await connectToDatabase();
+
     const { authResult, user } = await isAuthenticated(req);
     if (!authResult) {
       return NextResponse.json({ error: 'Unauthorized'}, { status: 401 });

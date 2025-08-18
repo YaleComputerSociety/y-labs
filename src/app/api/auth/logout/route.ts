@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
+import connectToDatabase from '@/lib/utils/mongodb';
 
 export async function GET(): Promise<NextResponse> {
+  await connectToDatabase();
+
   const BASE_URL = process.env.BASE_URL as string;
   if (!BASE_URL) {
-    throw new Error("Please define the BASE_URL environment variable");
+    console.error("please define the BASE_URL environment variable");
+    return NextResponse.redirect(`${BASE_URL}/login-error`);
   }
-  //const response = NextResponse.redirect(new URL('/login', process.env.BASE_URL));
+  
   const response = NextResponse.json({ message: 'Logged out' });
 
   response.cookies.delete({

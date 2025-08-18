@@ -28,6 +28,9 @@ const UserContextProvider: React.FunctionComponent<UserContextProviderProps> = (
           setIsAuthenticated(false);
           setUser(undefined);
         }
+
+        console.log (data.user);
+
         setIsLoading(false);
       })
       .catch((error) => {

@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import swal from 'sweetalert';
 import { useRouter } from 'next/navigation';
+import UserContext from '@/context/UserContext';
 
 import axios from '@/utils/axios';
+import PrivateRoute from '@/components/PrivateRoute';
 
 const Unknown = () => {
     const router = useRouter();
+    const { checkContext } = useContext(UserContext);
 
     // Form state
     const [firstName, setFirstName] = useState('');
@@ -128,8 +131,10 @@ const Unknown = () => {
         if (Object.keys(filteredErrors).length === 0) {
             console.log('Submitting user information:', { firstName, lastName, email, userType });
 
-            axios.put('/users', {withCredentials: true, data: { fname: firstName, lname: lastName, email: email, userType: userType, userConfirmed: false}}).then((response) => {
+            axios.put('/users', {withCredentials: true, force_sign: true, data: { fname: firstName, lname: lastName, email: email, userType: userType, userConfirmed: false}}).then((response) => {
                 swal('Success!', 'Your information has been updated! You can now access the site. We will verify your information shortly.', 'success').then(() => {
+                    checkContext();
+
                     router.push('/');
                 });
             }).catch((error) => {
@@ -313,4 +318,6 @@ const Unknown = () => {
     );
 };
 
-export default Unknown;
+export default function UnknownPage() {
+    return <PrivateRoute knownBlocked={true}>{<Unknown />}</PrivateRoute>;
+}

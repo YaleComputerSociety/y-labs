@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+import connectToDatabase from '@/lib/utils/mongodb';
 
 interface DecodedToken {
   netid: string;
@@ -23,6 +24,8 @@ function isValidDecodedToken(decoded: any): decoded is DecodedToken {
 
 export async function GET(): Promise<NextResponse> {
   try {
+    await connectToDatabase();
+
     const cookieStore = await cookies();
     const token = cookieStore.get('token');
 
@@ -46,7 +49,7 @@ export async function GET(): Promise<NextResponse> {
     return NextResponse.json({
       isLoggedIn: true,
       user: {
-        netid: decoded.netid,
+        netId: decoded.netid,
         userType: decoded.userType,
         userConfirmed: decoded.userConfirmed
       },

@@ -2,18 +2,21 @@ import { NextResponse, NextRequest } from 'next/server';
 import { isAuthenticated } from '@/lib/auth';
 import { readListing, updateListing, deleteListing } from '@/lib/services/newListingsService';
 import { IncorrectPermissionsError } from '@/lib/utils/errors';
+import connectToDatabase from '@/lib/utils/mongodb';
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectToDatabase();
+
     const { authResult, user } = await isAuthenticated(req);
     if (!authResult) {
       return NextResponse.json({ error: 'Unauthorized'}, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const listing = await readListing(id);
     return NextResponse.json({ listing });
   } catch (error) {
@@ -34,6 +37,8 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectToDatabase();
+
     const body = await req.json();
     const { authResult, user } = await isAuthenticated(req);
     if (!authResult) {
@@ -65,13 +70,14 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const body = await req.json();
+    await connectToDatabase();
+
     const { authResult, user } = await isAuthenticated(req);
     if (!authResult) {
       return NextResponse.json({ error: 'Unauthorized'}, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const currentListing = await readListing(id);
     if (user.netId !== currentListing.ownerId) {
       throw new IncorrectPermissionsError(`User with id ${user.netId} does not have permission to delete listing with id ${id}`);

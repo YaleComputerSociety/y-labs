@@ -11,15 +11,18 @@ export async function GET(request: Request): Promise<NextResponse> {
 
   const BASE_URL = process.env.BASE_URL as string;
   if (!BASE_URL) {
-    throw new Error("Please define the BASE_URL environment variable");
+    console.error("please define the BASE_URL environment variable");
+    return NextResponse.redirect(`${BASE_URL}/login-error`);
   }
   const JWT_SECRET = process.env.JWT_SECRET as string;
   if (!JWT_SECRET) {
-    throw new Error("Please define the JWT_SECRET environment variable");
+    console.error("please define the JWT_SECRET environment variable");
+    return NextResponse.redirect(`${BASE_URL}/login-error`);
   }
   const YALIES_API_KEY = process.env.YALIES_API_KEY as string;
   if (!YALIES_API_KEY) {
-    throw new Error("Please define the YALIES_API_KEY environment variable");
+    console.error("please define the YALIES_API_KEY environment variable");
+    return NextResponse.redirect(`${BASE_URL}/login-error`);
   }
 
   const { searchParams } = new URL(request.url);
@@ -42,12 +45,14 @@ export async function GET(request: Request): Promise<NextResponse> {
 
     try {
       if (result['cas:serviceResponse']['cas:authenticationFailure']) {
-        return NextResponse.json({ error: 'Authentication failed' }, { status: 401 });
+        console.error("Authentication failed");
+        return NextResponse.redirect(`${BASE_URL}/login-error`);
       }
       const success = result['cas:serviceResponse']['cas:authenticationSuccess'];
 
       if (!success) {
-        return NextResponse.json({ error: 'Authentication failed' }, { status: 401 });
+        console.error("Authentication failed");
+        return NextResponse.redirect(`${BASE_URL}/login-error`);
       }
 
       const netid = success[0]['cas:user'][0];
@@ -83,7 +88,8 @@ export async function GET(request: Request): Promise<NextResponse> {
 
       return response;
     } catch (e) {
-      return NextResponse.json({ error: 'Authentication failed' + e }, { status: 401 });
+      console.error('Authentication failed' + e);
+      return NextResponse.redirect(`${BASE_URL}/login-error`);
     }
   } else {
     return NextResponse.redirect(

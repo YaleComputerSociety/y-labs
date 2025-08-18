@@ -1,6 +1,6 @@
+/*
 import { NextResponse, NextRequest } from 'next/server';
-import { isAuthenticated } from '@/lib/auth';
-import { unarchiveListing } from '@/lib/services/newListingsService';
+import { confirmUser } from '@/lib/services/userService';
 import { IncorrectPermissionsError } from '@/lib/utils/errors';
 import connectToDatabase from '@/lib/utils/mongodb';
 
@@ -11,16 +11,12 @@ export async function PUT(
   try {
     await connectToDatabase();
 
-    const { authResult, user } = await isAuthenticated(req);
-    if (!authResult) {
-      return NextResponse.json({ error: 'Unauthorized'}, { status: 401 });
-    }
-
     const { id } = await params;
-    const listing = await unarchiveListing(id, user.netId);
-    return NextResponse.json({ listing });
+
+    const user = await confirmUser(id);
+    return NextResponse.json({ user });
   } catch (error) {
-    let message = 'Unknown error occurred when unarchiving the listing';
+    let message = 'Unknown error occurred when confirming user';
 
     if (error instanceof Error) {
       message = error.message;
@@ -35,3 +31,4 @@ export async function PUT(
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }
+*/
