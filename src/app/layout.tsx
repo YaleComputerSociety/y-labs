@@ -5,6 +5,7 @@ import UserContextProvider from "@/context/UserContextProvider";
 import Navbar from "@/components/Navbar";
 
 import { Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout({
           <Navbar />
           <main>{children}</main>
         </UserContextProvider>
+        <Analytics />
       </body>
     </html>
   );
