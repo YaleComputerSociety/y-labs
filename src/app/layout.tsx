@@ -1,7 +1,8 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import UserContextProvider from "@/context/UserContextProvider";
 import Navbar from "@/components/Navbar";
-import "./globals.css";
 
 import { Inter } from 'next/font/google';
 
